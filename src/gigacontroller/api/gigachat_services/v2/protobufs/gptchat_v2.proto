@@ -1,0 +1,100 @@
+syntax = "proto3";
+
+package giga.controller.v2;
+
+option go_package = "./;protocol";
+
+///////////////////// CHAT /////////////////////////////
+
+service ChatService {
+  rpc Chat (ChatRequest) returns (ChatResponse);
+}
+
+message ChatRequest {
+  ChatOptions options = 1;
+  string model = 2;
+  repeated Message messages = 3;
+}
+
+message ChatOptions {
+  optional float temperature = 1;
+  optional float top_p = 2;
+  int32 n = 3;
+  int64 max_tokens = 4;
+  float repetition_penalty = 5;
+  optional bytes optional_flags = 6;
+}
+
+message Message {
+  string role = 1;
+  string content = 2;
+}
+
+message ChatResponse {
+  repeated Choice choices = 1;
+  Usage usage = 2;
+  string model = 3;
+  int64 timestamp = 4;
+}
+
+message Choice {
+  Message message = 1;
+  string finish_reason = 2;
+  int32 index = 3;
+}
+
+message Usage {
+  int32 prompt_tokens = 1;
+  optional int32 completion_tokens = 2;
+  optional int32 total_tokens = 3;
+}
+
+///////////////////// EMBEDDINGS /////////////////////////////
+
+service EmbeddingsService {
+  rpc Embeddings (EmbeddingsRequest) returns (EmbeddingsResponse);
+}
+
+message EmbeddingsRequest {
+  optional string model = 1;
+  repeated string input = 2;
+}
+
+message EmbeddingsResponse {
+  repeated Embedding embeddings = 1;
+  optional string model = 2;
+}
+
+message Embedding {
+  string object = 1;
+  repeated float embedding = 2;
+  int32 index = 3;
+  Usage usage = 4;
+}
+
+///////////////////// MODELS /////////////////////////////
+
+service ModelsService {
+  rpc ListModels (ListModelsRequest) returns (ListModelsResponse);
+  rpc RetrieveModel (RetrieveModelRequest) returns (RetrieveModelResponse);
+}
+
+message ListModelsRequest {}
+
+message ListModelsResponse {
+  repeated Model models = 1;
+}
+
+message Model {
+  string name = 1;
+  string object = 2;
+  string ownedBy = 3;
+}
+
+message RetrieveModelRequest {
+  string name = 1;
+}
+
+message RetrieveModelResponse {
+  Model model = 1;
+}

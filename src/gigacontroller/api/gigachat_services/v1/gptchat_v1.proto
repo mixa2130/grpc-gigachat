@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package giga.controller.v1;
+
+// Incoming request from client
+message request_models_msg {}
+
+message request_model_info_msg {
+  string name = 1;
+}
+
+message request_chat_msg {
+  optional string model_name = 1;
+  bytes messages = 2;
+  optional bytes chat_settings = 3;
+}
+
+// Response to be returned by API service
+message model_response_msg {
+  bytes data = 1;
+}
+
+message model_info_msg {
+  bytes data = 1;
+}
+
+message gpt_answer_msg {
+  bytes data = 1;
+}
+
+// Service definition. 1 per file
+service GPTChat {
+
+  rpc get_models(request_models_msg) returns (model_response_msg) {};
+  rpc get_model_info(request_model_info_msg) returns (model_info_msg) {};
+  rpc post_chat(request_chat_msg) returns (gpt_answer_msg) {};
+
+}

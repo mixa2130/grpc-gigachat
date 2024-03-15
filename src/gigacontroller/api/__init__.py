@@ -1,0 +1,1 @@
+from .gigachat_services import V2GigaChatServices
