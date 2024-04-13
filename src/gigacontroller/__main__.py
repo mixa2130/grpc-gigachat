@@ -3,14 +3,14 @@ import typing as tp
 import asyncio
 import grpc
 
-from . import api
+from gigacontroller.api import V2GigaChatServices
 
 
 async def grpc_server(cleanup_coroutines: tp.List[tp.Coroutine]) -> tp.NoReturn:
     from gigacontroller.context import APP_CTX
 
     server = grpc.aio.server()
-    gigachat_grpc_services = api.V2GigaChatServices(APP_CTX.gc_client, APP_CTX.logger, APP_CTX.gc_call_retry)
+    gigachat_grpc_services = V2GigaChatServices(APP_CTX.gc_client, APP_CTX.logger, APP_CTX.gc_call_retry)
     await gigachat_grpc_services.add_services(server)
 
     server.add_insecure_port(APP_CTX.socket_addr)

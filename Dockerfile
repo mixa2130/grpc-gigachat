@@ -26,7 +26,6 @@ WORKDIR /app
 COPY poetry.lock pyproject.toml ./
 COPY src/ ./src/
 
-
 RUN poetry check
 RUN poetry build && ${POETRY_VENV}/bin/pip install dist/*.whl
 
