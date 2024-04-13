@@ -3,7 +3,6 @@ name = "gigacontroller"
 version = "0.2.0"
 description = "GigaChat controller with grpc interface"
 authors = ["Michael S2pac <mixa21.11@mail.ru>"]
-readme = "README.md"
 packages = [{ include = "gigacontroller", from = "src" }]
 
 [tool.poetry.dependencies]
